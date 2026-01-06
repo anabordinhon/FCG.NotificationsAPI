@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifications-api-deployment
+  labels:
+    app: notifications-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notifications-api
+  template:
+    metadata:
+      labels:
+        app: notifications-api
+    spec:
+      containers:
+      - name: notifications-api
+        image: notifications-api:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        # --- Variáveis Fixas ---
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: RabbitMq__UserName
+          value: "guest"
+
+        # --- Variável vinda do CONFIGMAP (Host) ---
+        # Certifique-se que no ConfigMap a chave é RabbitMq__Host (ou ajuste a 'key' abaixo)
+        - name: RabbitMq__Host
+          valueFrom:
+            configMapKeyRef:
+              name: notifications-config
+              key: RabbitMq__Host
+
+        # --- Variável vinda do SECRET (Senha) ---
+        - name: RabbitMq__Password
+          valueFrom:
+            secretKeyRef:
+              name: notifications-api-secret
+              key: RabbitMq__Password
