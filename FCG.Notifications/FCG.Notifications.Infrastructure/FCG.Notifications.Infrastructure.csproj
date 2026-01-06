@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.5.7" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FCG.Notifications.Application\FCG.Notifications.Application.csproj" />
     <ProjectReference Include="..\FCG.Notifications.Domain\FCG.Notifications.Domain.csproj" />
   </ItemGroup>
