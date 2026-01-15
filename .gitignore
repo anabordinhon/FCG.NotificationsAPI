@@ -78,3 +78,5 @@ Desktop.ini
 /FCG.Users/docker-compose - Copia.yml
 /FCG.Users/reset-database.ps1
 /FCG.Users/k8s/secret.yaml
+/FCG.Notifications/MonitorRabbitQueue.ps1
+/FCG.Notifications/k8s/secret.yaml

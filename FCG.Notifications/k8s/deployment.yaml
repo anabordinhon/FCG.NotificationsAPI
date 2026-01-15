@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifications-processor-deployment 
+  labels:
+    app: notifications-processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notifications-processor
+  template:
+    metadata:
+      labels:
+        app: notifications-processor
+    spec:
+      containers:
+      - name: notifications-processor
+        image: notifications-event-processor:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+
+        env:
+        - name: DOTNET_ENVIRONMENT
+          value: "Development"
+
+        - name: RabbitMq__UserName
+          value: "guest"
+
+        # ConfigMap
+        - name: RabbitMq__Host
+          valueFrom:
+            configMapKeyRef:
+              name: notifications-config
+              key: RabbitMq__Host
+
+        # Secret
+        - name: RabbitMq__Password
+          valueFrom:
+            secretKeyRef:
+              name: notifications-processor-secret
+              key: RabbitMq__Password
