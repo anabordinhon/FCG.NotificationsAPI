@@ -1,27 +1,37 @@
+version: '3.8'
+
 services:
-  # 1. Serviço de Mensageria
+  # 1. Serviço de Mensageria (RabbitMQ)
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq-container
     ports:
-      - "5672:5672"   # Porta do protocolo AMQP
-      - "15672:15672" # Interface visual (Management)
+      - "5672:5672"   # Porta para comunicação das aplicações (AMQP)
+      - "15672:15672" # Porta para o Painel de Controle (User: guest / Pass: guest)
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - notifications-network
 
-  # 2. Sua API de Notificações
-  notifications-api:
-    image: notifications-api:latest
+  # 2. Processador de Eventos (Antiga API)
+  notifications-processor:
+    image: notifications-event-processor:latest
+    container_name: notifications-event-processor
     build:
-      context: .
-      dockerfile: FCG.Notifications.API/Dockerfile
-    container_name: notifications-api
-    ports:
-      - "5000:8080" # Acesso local na porta 5000, container na 8080
+      context: ./FCG.Notifications
+      dockerfile: FCG.Notifications.EventProcessor/Dockerfile
     environment:
-      - RabbitMq__Host=rabbitmq-container
+      - DOTNET_ENVIRONMENT=Development
+      - RabbitMq__Host=rabbitmq
       - RabbitMq__Username=guest
       - RabbitMq__Password=guest
     depends_on:
       - rabbitmq
+    networks:
+      - notifications-network
+    restart: on-failure
+
+networks:
+  notifications-network:
+    driver: bridge

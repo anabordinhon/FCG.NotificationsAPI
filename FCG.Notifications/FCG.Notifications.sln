@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Notifications.Domain", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Notifications.Infrastructure", "FCG.Notifications.Infrastructure\FCG.Notifications.Infrastructure.csproj", "{6C5EB160-1101-4102-8B38-B3D15AF2AC3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Notifications.API", "FCG.Notifications.API\FCG.Notifications.API.csproj", "{E680C809-D5A3-499F-87FE-C7608B748CBA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Notifications.EventProcessor", "FCG.Notifications.EventProcessor\FCG.Notifications.EventProcessor.csproj", "{78C0DE44-BB95-433E-A7BD-9F5E0020538E}"
 EndProject
 Global
@@ -31,10 +29,6 @@ Global
 		{6C5EB160-1101-4102-8B38-B3D15AF2AC3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C5EB160-1101-4102-8B38-B3D15AF2AC3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C5EB160-1101-4102-8B38-B3D15AF2AC3B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E680C809-D5A3-499F-87FE-C7608B748CBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E680C809-D5A3-499F-87FE-C7608B748CBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E680C809-D5A3-499F-87FE-C7608B748CBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E680C809-D5A3-499F-87FE-C7608B748CBA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{78C0DE44-BB95-433E-A7BD-9F5E0020538E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{78C0DE44-BB95-433E-A7BD-9F5E0020538E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78C0DE44-BB95-433E-A7BD-9F5E0020538E}.Release|Any CPU.ActiveCfg = Release|Any CPU

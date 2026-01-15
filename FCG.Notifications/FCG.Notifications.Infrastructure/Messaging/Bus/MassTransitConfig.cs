@@ -1,4 +1,6 @@
+using FCG.Notifications.Domain.Shared.Events;
 using FCG.Notifications.Infrastructure.Consumers;
+using FCG.Users.Application.Users.Events;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,14 +29,19 @@ public static class MassTransitConfig
                     h.Username(rabbitUser);
                     h.Password(rabbitPass);
                 });
+                cfg.Message<UserCreatedEvent>(m => m.SetEntityName("user-created-exchange"));
 
-                cfg.ConfigureEndpoints(context);
+                cfg.ReceiveEndpoint("notifications-user-created-queue", e =>
+                {
+                    // Define que esta fila deve ouvir a exchange fixa
+                    e.Bind("user-created-exchange");
+
+                    // Conecta o seu Consumer à esta fila
+                    e.ConfigureConsumer<UserCreatedConsumer>(context);
+                });
+
             });
 
-            //x.UsingInMemory((context, cfg) =>
-            //{
-            //    cfg.ConfigureEndpoints(context);
-            //});
         });
 
         return services;
