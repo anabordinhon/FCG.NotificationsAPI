@@ -1,5 +1,6 @@
-using FCG.Notifications.Domain.Shared.Events;
+
 using FCG.Notifications.Infrastructure.Consumers;
+using FCG.Payments.Domain.Events;
 using FCG.Users.Application.Users.Events;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +21,7 @@ public static class MassTransitConfig
         services.AddMassTransit(x =>
         {
             x.AddConsumer<UserCreatedConsumer>();
-            //x.AddConsumer<PaymentProcessedConsumer>();
+            x.AddConsumer<PaymentProcessedConsumer>();
 
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -30,14 +31,20 @@ public static class MassTransitConfig
                     h.Password(rabbitPass);
                 });
                 cfg.Message<UserCreatedEvent>(m => m.SetEntityName("user-created-exchange"));
+                cfg.Message<PaymentProcessedEvent>(m => m.SetEntityName("payment-processed-exchange"));
 
                 cfg.ReceiveEndpoint("notifications-user-created-queue", e =>
                 {
-                    // Define que esta fila deve ouvir a exchange fixa
                     e.Bind("user-created-exchange");
 
                     // Conecta o seu Consumer à esta fila
                     e.ConfigureConsumer<UserCreatedConsumer>(context);
+                });
+
+                cfg.ReceiveEndpoint("notifications-payment-processed-queue", e =>
+                {
+                    e.Bind("payment-processed-exchange");
+                    e.ConfigureConsumer<PaymentProcessedConsumer>(context);
                 });
 
             });
