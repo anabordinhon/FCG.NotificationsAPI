@@ -35,7 +35,7 @@ Write-Host "PODS ATIVOS:" -ForegroundColor Green
 kubectl get pods -l app=notifications-processor
 
 Write-Host "`nSTATUS DO SERVICE:" -ForegroundColor Green
-kubectl get svc notifications-api
+kubectl get svc notifications-processor
 
 Write-Host "--------------------------------------------------" -ForegroundColor Cyan
 Write-Host "DICA: Se o Service ficar com EXTERNAL-IP <pending>, isso é esperado no Docker Desktop." -ForegroundColor Gray

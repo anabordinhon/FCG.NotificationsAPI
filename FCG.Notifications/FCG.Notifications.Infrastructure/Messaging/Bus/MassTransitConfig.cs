@@ -31,7 +31,7 @@ public static class MassTransitConfig
                     h.Password(rabbitPass);
                 });
                 cfg.Message<UserCreatedEvent>(m => m.SetEntityName("user-created-exchange"));
-                cfg.Message<PaymentProcessedEvent>(m => m.SetEntityName("payment-processed-exchange"));
+                cfg.Message<PaymentProcessedEvent>(m => m.SetEntityName("payment-processed"));
 
                 cfg.ReceiveEndpoint("notifications-user-created-queue", e =>
                 {
@@ -43,7 +43,7 @@ public static class MassTransitConfig
 
                 cfg.ReceiveEndpoint("notifications-payment-processed-queue", e =>
                 {
-                    e.Bind("payment-processed-exchange");
+                    e.Bind("payment-processed");
                     e.ConfigureConsumer<PaymentProcessedConsumer>(context);
                 });
 
