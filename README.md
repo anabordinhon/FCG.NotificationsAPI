@@ -62,7 +62,7 @@ Atualmente, o Worker processa dois fluxos críticos de negócio de forma totalme
 
 **Via Docker Compose** Na raiz do projeto orquestrador, execute o comando para subir o serviço: `docker-compose up -d fcg-notifications-processor`
 
-**Via Kubernetes (Deploy Automatizado)** Utilize o script PowerShell na raiz do repositório: `.\orchestrator.ps1`
+**Via Kubernetes (Deploy Automatizado)** Utilize o script PowerShell na raiz do repositório: `.\deploy.ps1`
 
 * * * * *
 
