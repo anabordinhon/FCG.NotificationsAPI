@@ -14,11 +14,12 @@ namespace FCG.Notifications.Application.Notifications.UseCases.Commands.SendPurc
 
         public Task Handle(SendPurchaseConfirmationEmailCommand command, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("------------------------------------------------");
-            _logger.LogInformation("[NOTIFICAÇÃO] Envio de e-mail de CONFIRMAÇÃO DE COMPRA");
-            _logger.LogInformation("Pedido: {OrderId} | Usuário: {UserId} | Status: {Status}",
-              command.OrderId, command.UserId, command.Status);
-            _logger.LogInformation("------------------------------------------------");
+            _logger.LogInformation(
+                    "E-mail de confirmação de compra enviado | Template: PurchaseConfirmation | OrderId: {OrderId} | UserId: {UserId} | Status: {Status}",
+                    command.OrderId,
+                    command.UserId,
+                    command.Status
+                );
 
             return Task.CompletedTask;
         }

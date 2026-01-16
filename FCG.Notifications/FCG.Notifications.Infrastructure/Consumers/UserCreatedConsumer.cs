@@ -21,17 +21,39 @@ namespace FCG.Notifications.Infrastructure.Consumers
 
         public async Task Consume(ConsumeContext<UserCreatedEvent> context)
         {
-            _logger.LogInformation("[Infra] ENTROU no UserCreatedConsumer");
-
             var message = context.Message;
 
-            // Aqui montamos o Comando da Aplicação
-            var command = new SendWelcomeEmailCommand(message.UserId, message.Email, message.Name);
+            _logger.LogInformation(
+                    "Consumindo UserCreatedEvent | EventId: {EventId} | CorrelationId: {CorrelationId} | UserId: {UserId}",
+                    message.EventId,
+                    message.CorrelationId,
+                    message.UserId
+                );
 
-            // Chamamos a camada de aplicação para executar a regra
-            await _handler.Handle(command, context.CancellationToken);
+            try
+            {
+                var command = new SendWelcomeEmailCommand(message.UserId, message.Email, message.Name);
 
-            _logger.LogInformation($"[Infra] Evento processado e comando enviado para Application.");
+                await _handler.Handle(command, context.CancellationToken);
+
+                _logger.LogInformation(
+                            "UserCreatedEvent processado | UserId: {UserId} | CorrelationId: {CorrelationId}",
+                            message.UserId,
+                            message.CorrelationId
+                        );
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                            ex,
+                            "Falha ao processar UserCreatedEvent | UserId: {UserId} | CorrelationId: {CorrelationId} | Erro: {Message}",
+                            message.UserId,
+                            message.CorrelationId,
+                            ex.Message
+                        );
+                throw;
+            }
+
         }
     }
 }

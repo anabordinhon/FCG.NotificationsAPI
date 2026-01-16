@@ -14,7 +14,13 @@ namespace FCG.Notifications.Application.Notifications.UseCases.Commands.SendWelc
 
         public Task Handle(SendWelcomeEmailCommand command, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"[Sucesso] E-mail enviado | Template: Welcome | UserId: {command.UserId} | Para: {command.Email}");
+            _logger.LogInformation(
+                    "E-mail de boas-vindas enviado | Template: {Template} | UserId: {UserId} | Destinatário: {Email}",
+                    "Welcome",
+                    command.UserId,
+                    command.Email
+                );
+
             return Task.CompletedTask;
         }
 

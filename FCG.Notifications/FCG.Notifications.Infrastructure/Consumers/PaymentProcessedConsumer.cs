@@ -20,9 +20,12 @@ public class PaymentProcessedConsumer : IConsumer<PaymentProcessedEvent>
 
     public async Task Consume(ConsumeContext<PaymentProcessedEvent> context)
     {
-        _logger.LogInformation("[Infra] ENTROU no PaymentProcessedConsumer");
-
         var message = context.Message;
+
+        _logger.LogInformation(
+                "Iniciando consumo de PaymentProcessedEvent | OrderId: {OrderId} | Status: {Status}",
+                message.OrderId,
+                message.Status);
 
         if (message.Status.Equals("Approved", StringComparison.OrdinalIgnoreCase))
         {
@@ -33,11 +36,19 @@ public class PaymentProcessedConsumer : IConsumer<PaymentProcessedEvent>
 
             await _handler.Handle(command, context.CancellationToken);
 
-            _logger.LogInformation("[Infra] Evento processado e comando enviado para Application.");
+
+            _logger.LogInformation(
+                        "PaymentProcessedEvent processado | OrderId: {OrderId} | UserId: {UserId}",
+                        message.OrderId,
+                        message.UserId
+                    );
         }
         else
         {
-            _logger.LogWarning($"[Infra] Pagamento {message.OrderId} rejeitado. Nenhuma notificação enviada.");
+            _logger.LogWarning(
+                        "Notificação não enviada. Motivo: Pagamento com status não aprovado | OrderId: {OrderId} | Status: {Status}",
+                        message.OrderId,
+                        message.Status);
         }
     }
 }
