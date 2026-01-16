@@ -17,27 +17,24 @@ spec:
       containers:
       - name: notifications-processor
         image: notifications-event-processor:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
-
         env:
         - name: DOTNET_ENVIRONMENT
           value: "Development"
-
-        - name: RabbitMq__UserName
-          value: "guest"
-
-        # ConfigMap
         - name: RabbitMq__Host
           valueFrom:
             configMapKeyRef:
               name: notifications-config
               key: RabbitMq__Host
-
-        # Secret
+        - name: RabbitMq__UserName
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-secret
+              key: username
         - name: RabbitMq__Password
           valueFrom:
             secretKeyRef:
-              name: notifications-processor-secret
-              key: RabbitMq__Password
+              name: rabbitmq-secret
+              key: password
